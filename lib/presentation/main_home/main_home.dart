@@ -1,10 +1,13 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:head_x_admin/core/ui_colors.dart';
 import 'package:head_x_admin/core/ui_widgets.dart';
 import 'package:head_x_admin/presentation/categories/wired_headphones/main_wired.dart';
 
 class MainHome extends StatelessWidget {
-  const MainHome({super.key});
+  MainHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +21,10 @@ class MainHome extends StatelessWidget {
           backgroundColor: appbarColor,
           actions: [
             Padding(
-              padding: EdgeInsets.only(right: 14),
+              padding: const EdgeInsets.only(right: 14),
               child: InkWell(
-                onTap: () {
-                  //  Navigator.push(context,)
-                },
-                child: Icon(
+                onTap: () {},
+                child: const Icon(
                   Icons.menu,
                   size: 30,
                 ),
@@ -38,45 +39,84 @@ class MainHome extends StatelessWidget {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: GridView.count(
-                crossAxisCount: 2, // Number of columns in the grid
-                mainAxisSpacing: 30,
-                crossAxisSpacing: 8,
-                children: List.generate(6, (index) {
-                  return Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 80,
-                        backgroundColor: Color(0xFFCFE0E1),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) {
-                                    return MainWiredHeadphones();
-                                  },
-                                ));
-                              },
-                              child: Container(
-                                width: 100,
-                                height: 110,
-                                color: Colors.amber,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const Text("Wired Headphones")
-                    ],
-                  );
-                }),
-              ),
+              child: StreamBuilder(
+                  stream: getproducts,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (snapshot.data == null) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                    if (snapshot.data != []) {
+                      return GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // Number of columns in the grid
+                            mainAxisSpacing: 30,
+                            crossAxisSpacing: 8,
+                          ),
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (BuildContext context, index) {
+                            final document = snapshot.data[index];
+
+                            return Column(
+                              children: [
+                                CircleAvatar(
+                                  radius: 80,
+                                  backgroundColor: const Color(0xFFCFE0E1),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) {
+                                                return MainWiredHeadphones(
+                                                  title: document['name'],
+                                                  id: document['id'],
+                                                  productDetails:
+                                                      document['product'],
+                                                );
+                                              },
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                            width: 100,
+                                            height: 110,
+                                            child: Image(
+                                              image: NetworkImage(
+                                                  document['image']),
+                                              fit: BoxFit.cover,
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Text(document['name']),
+                              ],
+                            );
+                          });
+                    }
+
+                    return const Text("shfjkshfjw");
+                  }),
             ),
           )
         ],
       ),
     );
   }
+
+  Stream getproducts = (() async* {
+    final QuerySnapshot<Map<String, dynamic>> usersStream =
+        await FirebaseFirestore.instance.collection('category').get();
+
+    List productlist = usersStream.docs.map((e) => e.data()).toList();
+
+    yield productlist;
+    // log(productlist.toString());
+  })();
 }
