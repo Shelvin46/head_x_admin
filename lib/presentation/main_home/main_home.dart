@@ -76,8 +76,7 @@ class MainHome extends StatelessWidget {
                                                 return MainWiredHeadphones(
                                                   title: document['name'],
                                                   id: document['id'],
-                                                  productDetails:
-                                                      document['product'],
+                                                  
                                                 );
                                               },
                                             ),

@@ -1,28 +1,41 @@
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:head_x_admin/application/description_detail/description_detail_bloc.dart';
+import 'package:head_x_admin/application/product_detail/product_detail_bloc.dart';
 import 'package:head_x_admin/core/ui_colors.dart';
 import 'package:head_x_admin/core/ui_widgets.dart';
+import 'package:head_x_admin/firebase/product_update/update.dart';
 import 'package:head_x_admin/presentation/edit_product/widgets/edit_photos.dart';
 import 'package:head_x_admin/presentation/edit_product/widgets/price_update.dart';
 import 'package:head_x_admin/presentation/edit_product/widgets/product_details.dart';
 import 'package:head_x_admin/presentation/widgets/app_bar.dart';
 
+import '../../application/product_displaying/product_displaying_bloc.dart';
+
 class MainEditDetails extends StatelessWidget {
-  MainEditDetails({super.key});
-  final priceController = TextEditingController();
+  MainEditDetails({super.key, required this.id, required this.index});
+  var priceController = TextEditingController();
   final modelNameController = TextEditingController();
-  final headPhoneTytpeController = TextEditingController();
-  final driverTypeController = TextEditingController();
-  final microphoneController = TextEditingController();
+  final colorTytpeController = TextEditingController();
+  final descriptionController = TextEditingController();
+
   final lengthController = TextEditingController();
+  final String id;
+  final int index;
 
   @override
   Widget build(BuildContext context) {
-    priceController.text = "₹999";
-    modelNameController.text = "RMA2016";
-    headPhoneTytpeController.text = "In the Ear";
-    driverTypeController.text = "11.2mm";
-    microphoneController.text = "Yes";
-    lengthController.text = "1m";
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      BlocProvider.of<ProductDetailBloc>(context)
+          .add(ShowDetails(id: id, index: index));
+      BlocProvider.of<DescriptionDetailBloc>(context)
+          .add(DescriptionDetail(id: id, index: index));
+      log(imageFile.toString());
+    });
 
     return Scaffold(
       appBar: PreferredSize(
@@ -39,7 +52,16 @@ class MainEditDetails extends StatelessWidget {
             ),
           ),
           const Divider(),
-          const EditPhotos(),
+          BlocBuilder<ProductDetailBloc, ProductDetailState>(
+            builder: (context, state) {
+              return EditPhotos(
+                context: context,
+                state: state,
+                id: id,
+                index1: index,
+              );
+            },
+          ),
           editGap1,
           Padding(
             padding: editGap2,
@@ -49,7 +71,14 @@ class MainEditDetails extends StatelessWidget {
             ),
           ),
           const Divider(),
-          PriceUpdate(priceController: priceController),
+          BlocBuilder<DescriptionDetailBloc, DescriptionDetailState>(
+            builder: (context, state) {
+              log(priceController.text);
+              int price = state.values[index]['price'];
+              priceController.text = price.toString();
+              return PriceUpdate(priceController: priceController);
+            },
+          ),
           const Divider(),
           Padding(
             padding: editGap2,
@@ -59,17 +88,76 @@ class MainEditDetails extends StatelessWidget {
             ),
           ),
           const Divider(),
-          ProductDetails(
-              modelNameController: modelNameController,
-              headPhoneTytpeController: headPhoneTytpeController,
-              driverTypeController: driverTypeController,
-              microphoneController: microphoneController,
-              lengthController: lengthController),
+          BlocBuilder<DescriptionDetailBloc, DescriptionDetailState>(
+            builder: (context, state) {
+              modelNameController.text = state.values[index]['name'];
+              colorTytpeController.text = state.values[index]['color'];
+              int length = state.values[index]['lenght'];
+              lengthController.text = length.toString();
+              descriptionController.text = state.values[index]['description'];
+              return ProductDetails(
+                modelNameController: modelNameController,
+                colorTytpeController: colorTytpeController,
+                lengthController: lengthController,
+                descrptionController: descriptionController,
+              );
+            },
+          ),
           editGap4,
           Center(
-              child: Text(
-            "Update",
-            style: editText3,
+              child: InkWell(
+            onTap: () async {
+              List<String> selectedImageUrls = [];
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                },
+                barrierDismissible: false,
+              );
+              for (var image in imageFile) {
+                String fileName = DateTime.now().toString();
+                Reference reference =
+                    FirebaseStorage.instance.ref().child(fileName);
+                UploadTask uploadTask = reference.putFile(image);
+                TaskSnapshot taskSnapshot = await uploadTask;
+                String downloadUrl = await taskSnapshot.ref.getDownloadURL();
+
+                selectedImageUrls.add(downloadUrl);
+              }
+              final docSnapshot = await FirebaseFirestore.instance
+                  .collection('category')
+                  .doc(id)
+                  .get();
+
+              final productList = docSnapshot.data()?['product'] ?? [];
+              final productDetails = productList[index];
+              // final imageList = productDetails['images'];
+              final List<String> imageList =
+                  List<String>.from(productDetails['images'] ?? []);
+              imageList.addAll(selectedImageUrls);
+              FirebaseUpdate().updateProduct(
+                  images: imageList,
+                  name: modelNameController.text,
+                  type: descriptionController.text,
+                  color: colorTytpeController.text,
+                  length: int.parse(lengthController.text),
+                  price: int.parse(priceController.text),
+                  id: id,
+                  index: index);
+              selectedImageUrls.clear();
+              imageFile.clear();
+              Navigator.pop(context);
+
+              //         BlocProvider.of<ProductDisplayingBloc>(context)
+              // .add(InitializDisplay(id: id));
+            },
+            child: Text(
+              "Update",
+              style: editText3,
+            ),
           )),
           editGap4,
           Container(

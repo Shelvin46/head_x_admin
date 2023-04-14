@@ -27,20 +27,9 @@ class AddingTextFields extends StatelessWidget {
           ),
         ),
         loginPageGap2,
-        Container(
-          height: myMediaQueryData.size.height * 0.07,
-          width: myMediaQueryData.size.height * 0.4,
-          decoration: textformRadius,
-          child: TextField(
-            controller: typeController,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                labelText: "  Headphone Type",
-                labelStyle: labelColor),
-          ),
-        ),
+
         // loginPageGap2,
-        loginPageGap2,
+        // loginPageGap2,
         Container(
           height: myMediaQueryData.size.height * 0.07,
           width: myMediaQueryData.size.height * 0.4,
@@ -53,19 +42,20 @@ class AddingTextFields extends StatelessWidget {
                 labelStyle: labelColor),
           ),
         ),
-        loginPageGap2,
-        Container(
-          height: myMediaQueryData.size.height * 0.07,
-          width: myMediaQueryData.size.height * 0.4,
-          decoration: textformRadius,
-          child: TextField(
-            controller: quandityController,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                labelText: "  Quandity",
-                labelStyle: labelColor),
-          ),
-        ),
+
+        // Container(
+        //   height: myMediaQueryData.size.height * 0.07,
+        //   width: myMediaQueryData.size.height * 0.4,
+        //   decoration: textformRadius,
+        //   child: TextField(
+        //     keyboardType: TextInputType.number,
+        //     controller: quandityController,
+        //     decoration: InputDecoration(
+        //         border: InputBorder.none,
+        //         labelText: "  Quandity",
+        //         labelStyle: labelColor),
+        //   ),
+        // ),
         loginPageGap2,
 
         // loginPageGap2,
@@ -74,6 +64,7 @@ class AddingTextFields extends StatelessWidget {
           width: myMediaQueryData.size.height * 0.4,
           decoration: textformRadius,
           child: TextField(
+            keyboardType: TextInputType.number,
             controller: lengthController,
             decoration: InputDecoration(
                 border: InputBorder.none,
@@ -81,6 +72,20 @@ class AddingTextFields extends StatelessWidget {
                 labelStyle: labelColor),
           ),
         ),
+        loginPageGap2,
+        Container(
+          height: myMediaQueryData.size.height * 0.07,
+          width: myMediaQueryData.size.height * 0.4,
+          decoration: textformRadius,
+          child: TextField(
+            controller: typeController,
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                labelText: "  Description",
+                labelStyle: labelColor),
+          ),
+        ),
+        loginPageGap2,
       ]),
     ));
   }

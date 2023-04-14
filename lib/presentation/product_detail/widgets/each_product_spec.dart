@@ -13,6 +13,7 @@ class ProductSpecification extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: EdgeInsets.only(left: 10),
@@ -25,11 +26,15 @@ class ProductSpecification extends StatelessWidget {
             ),
           ),
         ),
-        Text(
-          text2,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 22,
+        Expanded(
+          child: Text(
+            text2,
+            maxLines: 20,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+            ),
           ),
         )
       ],

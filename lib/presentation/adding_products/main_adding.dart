@@ -27,10 +27,10 @@ class MainAddingProduct extends StatelessWidget {
       {super.key,
       required this.title,
       required this.id,
-      required this.productDetails});
+      });
   final String title;
   final String id;
-  final List productDetails;
+  
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +63,7 @@ class MainAddingProduct extends StatelessWidget {
                 const Spacer(),
                 Expanded(
                   child: TextFormField(
+                    keyboardType: TextInputType.number,
                     controller: priceController,
                     style: addText1,
                     decoration: const InputDecoration(
@@ -117,7 +118,6 @@ class MainAddingProduct extends StatelessWidget {
                     color: colorController.text,
                     length: int.parse(lengthController.text),
                     price: int.parse(priceController.text),
-                    quandity: int.parse(quandityController.text),
                     id: id,
                   );
                   // ignore: use_build_context_synchronously

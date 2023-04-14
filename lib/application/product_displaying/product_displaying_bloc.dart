@@ -17,11 +17,22 @@ class ProductDisplayingBloc
           .collection('category')
           .doc(event.id)
           .get();
-      // log(docSnapshot.data().toString());
 
       final productList = docSnapshot.data()?['product'] ?? [];
       // log(productList.toString());
       return emit(ProductDisplayingState(productList: productList));
+    });
+    on<DeletingDisplay>((event, emit) async {
+      final documentReference =
+          FirebaseFirestore.instance.collection('category').doc(event.id);
+      final documentSnapshot = await documentReference.get();
+      final List<dynamic> products = documentSnapshot.get('product');
+
+      if (event.index >= 0) {
+        products.removeAt(event.index);
+        await documentReference.update({'product': products});
+      }
+      return emit(ProductDisplayingState(productList: products));
     });
   }
 }

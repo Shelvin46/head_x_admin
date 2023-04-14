@@ -1,21 +1,20 @@
-
 import 'package:flutter/material.dart';
+// import 'package:head_x_admin/presentation/adding_products/main_adding.dart';
 
 class ProductDetails extends StatelessWidget {
   const ProductDetails({
     super.key,
     required this.modelNameController,
-    required this.headPhoneTytpeController,
-    required this.driverTypeController,
-    required this.microphoneController,
+    required this.colorTytpeController,
     required this.lengthController,
+    required this.descrptionController,
   });
 
   final TextEditingController modelNameController;
-  final TextEditingController headPhoneTytpeController;
-  final TextEditingController driverTypeController;
-  final TextEditingController microphoneController;
+  final TextEditingController colorTytpeController;
+  final TextEditingController descrptionController;
   final TextEditingController lengthController;
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class ProductDetails extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                "Model Name:",
+                " Name:",
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 18,
@@ -38,8 +37,7 @@ class ProductDetails extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(80, 0, 10, 0),
                   child: TextFormField(
                     controller: modelNameController,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 26),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
                   ),
                 ),
               ),
@@ -51,7 +49,7 @@ class ProductDetails extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                "HeadPhone Type:",
+                " Color:",
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 18,
@@ -62,9 +60,8 @@ class ProductDetails extends StatelessWidget {
                 child: Padding(
                   padding: EdgeInsets.fromLTRB(80, 0, 10, 0),
                   child: TextFormField(
-                    controller: headPhoneTytpeController,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 26),
+                    controller: colorTytpeController,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
                   ),
                 ),
               ),
@@ -76,57 +73,7 @@ class ProductDetails extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                "Driver Units:",
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(80, 0, 10, 0),
-                  child: TextFormField(
-                    controller: driverTypeController,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 26),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: Row(
-            children: [
-              Text(
-                "Microphone:",
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: EdgeInsets.fromLTRB(80, 0, 10, 0),
-                  child: TextFormField(
-                    controller: microphoneController,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 26),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-          child: Row(
-            children: [
-              Text(
-                "Length:",
+                " Length:",
                 style: TextStyle(
                   color: Colors.grey,
                   fontSize: 18,
@@ -138,8 +85,31 @@ class ProductDetails extends StatelessWidget {
                   padding: EdgeInsets.fromLTRB(80, 0, 10, 0),
                   child: TextFormField(
                     controller: lengthController,
-                    style: TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 26),
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+          child: Row(
+            children: [
+              Text(
+                "Description:",
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.fromLTRB(80, 0, 10, 0),
+                  child: TextFormField(
+                    controller: descrptionController,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
                   ),
                 ),
               ),

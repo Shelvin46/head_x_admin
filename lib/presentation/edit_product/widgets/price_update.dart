@@ -1,12 +1,14 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class PriceUpdate extends StatelessWidget {
-  const PriceUpdate({
+  PriceUpdate({
     super.key,
     required this.priceController,
   });
 
-  final TextEditingController priceController;
+  TextEditingController priceController;
 
   @override
   Widget build(BuildContext context) {
@@ -20,8 +22,7 @@ class PriceUpdate extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(10, 0, 210, 0),
               child: TextFormField(
                 controller: priceController,
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 26),
               ),
             ),
           ),

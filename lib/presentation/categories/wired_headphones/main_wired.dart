@@ -7,20 +7,22 @@ import 'package:head_x_admin/application/image_picker/image_picker_bloc.dart';
 import 'package:head_x_admin/application/product_displaying/product_displaying_bloc.dart';
 import 'package:head_x_admin/core/ui_colors.dart';
 import 'package:head_x_admin/core/ui_widgets.dart';
+// import 'package:head_x_admin/firebase/product_deleting/deleting.dart';
 import 'package:head_x_admin/presentation/adding_products/main_adding.dart';
 import 'package:head_x_admin/presentation/product_detail/product_detail.dart';
 
 import 'package:head_x_admin/presentation/widgets/app_bar.dart';
 
 class MainWiredHeadphones extends StatelessWidget {
-  MainWiredHeadphones(
-      {super.key,
-      required this.title,
-      required this.id,
-      required this.productDetails});
+  MainWiredHeadphones({
+    super.key,
+    required this.title,
+    required this.id,
+  });
   final String title;
   final String id;
-  final List productDetails;
+
+  // final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class MainWiredHeadphones extends StatelessWidget {
             Expanded(
               child: BlocBuilder<ProductDisplayingBloc, ProductDisplayingState>(
                 builder: (context, state) {
+                  // log(state.productList.toString());
                   if (state.productList.isEmpty) {
                     return Center(
                       child: Text("No Data"),
@@ -56,7 +59,10 @@ class MainWiredHeadphones extends StatelessWidget {
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(
                             builder: (context) {
-                              return ProductDetail();
+                              return ProductDetail(
+                                id: id,
+                                index: index,
+                              );
                             },
                           ));
                         },
@@ -91,10 +97,44 @@ class MainWiredHeadphones extends StatelessWidget {
                                   listGap4,
                                   Padding(
                                     padding: EdgeInsets.fromLTRB(160, 50, 0, 0),
-                                    child: Icon(
-                                      Icons.delete,
-                                      size: 40,
-                                      color: appbarColor,
+                                    child: InkWell(
+                                      onTap: () async {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            title: Text("Confirm Deletion"),
+                                            content: Text(
+                                                "Are you sure you want to delete this product?"),
+                                            actions: [
+                                              TextButton(
+                                                child: Text("Cancel"),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                              TextButton(
+                                                child: Text("Delete"),
+                                                onPressed: () {
+                                                  //DeletingServices().deleteProduct(id, index);
+                                                  BlocProvider.of<
+                                                              ProductDisplayingBloc>(
+                                                          context)
+                                                      .add(
+                                                    DeletingDisplay(
+                                                        id: id, index: index),
+                                                  );
+                                                  Navigator.of(context).pop();
+                                                },
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      },
+                                      child: Icon(
+                                        Icons.delete,
+                                        size: 40,
+                                        color: appbarColor,
+                                      ),
                                     ),
                                   )
                                 ],
@@ -122,7 +162,6 @@ class MainWiredHeadphones extends StatelessWidget {
               return MainAddingProduct(
                 title: title,
                 id: id,
-                productDetails: productDetails,
               );
             },
           ));
