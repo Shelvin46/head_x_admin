@@ -34,7 +34,6 @@ class MainEditDetails extends StatelessWidget {
           .add(ShowDetails(id: id, index: index));
       BlocProvider.of<DescriptionDetailBloc>(context)
           .add(DescriptionDetail(id: id, index: index));
-      log(imageFile.toString());
     });
 
     return Scaffold(
@@ -134,7 +133,6 @@ class MainEditDetails extends StatelessWidget {
 
               final productList = docSnapshot.data()?['product'] ?? [];
               final productDetails = productList[index];
-              // final imageList = productDetails['images'];
               final List<String> imageList =
                   List<String>.from(productDetails['images'] ?? []);
               imageList.addAll(selectedImageUrls);
@@ -149,10 +147,9 @@ class MainEditDetails extends StatelessWidget {
                   index: index);
               selectedImageUrls.clear();
               imageFile.clear();
-              Navigator.pop(context);
 
-              //         BlocProvider.of<ProductDisplayingBloc>(context)
-              // .add(InitializDisplay(id: id));
+              // ignore: use_build_context_synchronously
+              Navigator.pop(context);
             },
             child: Text(
               "Update",
@@ -160,14 +157,31 @@ class MainEditDetails extends StatelessWidget {
             ),
           )),
           editGap4,
-          Container(
-            height: 60,
-            width: double.infinity,
-            color: appbarColor,
-            child: Center(
-              child: Text(
-                "Confirm",
-                style: editText2,
+          InkWell(
+            onTap: () {
+              BlocProvider.of<DescriptionDetailBloc>(context)
+                  .add(DescriptionDetail(id: id, index: index));
+              BlocProvider.of<ProductDisplayingBloc>(context)
+                  .add(InitializDisplay(id: id));
+              Navigator.pop(context);
+
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  backgroundColor: Colors.blue,
+                  content: Text('Updated Successfully'),
+                  duration: Duration(seconds: 2),
+                ),
+              );
+            },
+            child: Container(
+              height: 60,
+              width: double.infinity,
+              color: appbarColor,
+              child: Center(
+                child: Text(
+                  "Confirm",
+                  style: editText2,
+                ),
               ),
             ),
           )

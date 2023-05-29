@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:head_x_admin/application/description_detail/description_detail_bloc.dart';
 import 'package:head_x_admin/application/image_picker/image_picker_bloc.dart';
+import 'package:head_x_admin/application/order_details/order_details_bloc.dart';
 import 'package:head_x_admin/application/product_detail/product_detail_bloc.dart';
 import 'package:head_x_admin/application/product_displaying/product_displaying_bloc.dart';
 // import 'package:head_x_admin/application/update_image_picker/update_image_picker_bloc.dart';
@@ -46,7 +47,11 @@ class MyApp extends StatelessWidget {
             return DescriptionDetailBloc();
           },
         ),
-       
+        BlocProvider(
+          create: (context) {
+            return OrderDetailsBloc();
+          },
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

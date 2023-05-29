@@ -2,15 +2,21 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:head_x_admin/application/order_details/order_details_bloc.dart';
 import 'package:head_x_admin/core/ui_colors.dart';
 import 'package:head_x_admin/core/ui_widgets.dart';
 import 'package:head_x_admin/presentation/categories/wired_headphones/main_wired.dart';
+import 'package:head_x_admin/presentation/order_details/main_order_details.dart';
 
 class MainHome extends StatelessWidget {
   MainHome({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+
+    // });
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -23,7 +29,24 @@ class MainHome extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(right: 14),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    },
+                  );
+                  BlocProvider.of<OrderDetailsBloc>(context)
+                      .add(OrderDetails());
+                  Navigator.pop(context);
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) {
+                      return MainOrderDetails();
+                    },
+                  ));
+                },
                 child: const Icon(
                   Icons.menu,
                   size: 30,
@@ -76,13 +99,12 @@ class MainHome extends StatelessWidget {
                                                 return MainWiredHeadphones(
                                                   title: document['name'],
                                                   id: document['id'],
-                                                  
                                                 );
                                               },
                                             ),
                                           );
                                         },
-                                        child: Container(
+                                        child: SizedBox(
                                             width: 100,
                                             height: 110,
                                             child: Image(
@@ -116,6 +138,5 @@ class MainHome extends StatelessWidget {
     List productlist = usersStream.docs.map((e) => e.data()).toList();
 
     yield productlist;
-    // log(productlist.toString());
   })();
 }

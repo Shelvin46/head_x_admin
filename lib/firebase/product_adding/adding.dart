@@ -8,7 +8,8 @@ class DatabaseServices {
       required String color,
       required int length,
       required int price,
-      required String id}) async {
+      required String id,
+      required int quantity}) async {
     FirebaseFirestore.instance.collection('category').doc(id).update({
       'product': FieldValue.arrayUnion([
         {
@@ -18,8 +19,9 @@ class DatabaseServices {
           'images': images,
           'lenght': length,
           'price': price,
-          'id': id
-        } 
+          'id': id,
+          'quantity': quantity
+        }
       ])
     });
   }

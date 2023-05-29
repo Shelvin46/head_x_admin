@@ -54,7 +54,7 @@ class MainWiredHeadphones extends StatelessWidget {
                   return ListView.separated(
                     itemBuilder: (context, index) {
                       final value = state.productList[index];
-                      // log(value['images'][0]);
+
                       return GestureDetector(
                         onTap: () {
                           Navigator.push(context, MaterialPageRoute(

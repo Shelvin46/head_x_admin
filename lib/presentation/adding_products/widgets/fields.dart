@@ -10,83 +10,84 @@ class AddingTextFields extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-        child: Center(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-        loginPageGap2,
-        Container(
-          height: myMediaQueryData.size.height * 0.07,
-          width: myMediaQueryData.size.height * 0.4,
-          decoration: textformRadius,
-          child: TextField(
-            controller: pnameController,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                labelText: "  Product name",
-                labelStyle: labelColor),
+    return Center(
+      child: SingleChildScrollView(
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+          loginPageGap2,
+          Container(
+            height: myMediaQueryData.size.height * 0.07,
+            width: myMediaQueryData.size.height * 0.4,
+            decoration: textformRadius,
+            child: TextField(
+              controller: pnameController,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: "  Product name",
+                  labelStyle: labelColor),
+            ),
           ),
-        ),
-        loginPageGap2,
-
-        // loginPageGap2,
-        // loginPageGap2,
-        Container(
-          height: myMediaQueryData.size.height * 0.07,
-          width: myMediaQueryData.size.height * 0.4,
-          decoration: textformRadius,
-          child: TextField(
-            controller: colorController,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                labelText: "  Color",
-                labelStyle: labelColor),
+          loginPageGap2,
+          Container(
+            height: myMediaQueryData.size.height * 0.07,
+            width: myMediaQueryData.size.height * 0.4,
+            decoration: textformRadius,
+            child: TextField(
+              controller: colorController,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: "  Color",
+                  labelStyle: labelColor),
+            ),
           ),
-        ),
-
-        // Container(
-        //   height: myMediaQueryData.size.height * 0.07,
-        //   width: myMediaQueryData.size.height * 0.4,
-        //   decoration: textformRadius,
-        //   child: TextField(
-        //     keyboardType: TextInputType.number,
-        //     controller: quandityController,
-        //     decoration: InputDecoration(
-        //         border: InputBorder.none,
-        //         labelText: "  Quandity",
-        //         labelStyle: labelColor),
-        //   ),
-        // ),
-        loginPageGap2,
-
-        // loginPageGap2,
-        Container(
-          height: myMediaQueryData.size.height * 0.07,
-          width: myMediaQueryData.size.height * 0.4,
-          decoration: textformRadius,
-          child: TextField(
-            keyboardType: TextInputType.number,
-            controller: lengthController,
-            decoration: InputDecoration(
-                border: InputBorder.none,
-                labelText: "  Length",
-                labelStyle: labelColor),
+          loginPageGap2,
+          Container(
+            height: myMediaQueryData.size.height * 0.07,
+            width: myMediaQueryData.size.height * 0.4,
+            decoration: textformRadius,
+            child: TextField(
+              keyboardType: TextInputType.number,
+              controller: lengthController,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: "  Length",
+                  labelStyle: labelColor),
+            ),
           ),
-        ),
-        loginPageGap2,
-        Container(
-          height: myMediaQueryData.size.height * 0.07,
-          width: myMediaQueryData.size.height * 0.4,
-          decoration: textformRadius,
-          child: TextField(
-            controller: typeController,
-            decoration: InputDecoration(
+          loginPageGap2,
+          Container(
+            height: myMediaQueryData.size.height * 0.07,
+            width: myMediaQueryData.size.height * 0.4,
+            decoration: textformRadius,
+            child: TextField(
+              keyboardType: TextInputType.number,
+              controller: quandityController,
+              decoration: InputDecoration(
+                  border: InputBorder.none,
+                  labelText: "  Quantity",
+                  labelStyle: labelColor),
+            ),
+          ),
+          loginPageGap2,
+          Container(
+            height: myMediaQueryData.size.height * 0.20,
+            width: myMediaQueryData.size.height * 0.4,
+            decoration: textformRadius,
+            child: TextField(
+              controller: typeController,
+              decoration: InputDecoration(
                 border: InputBorder.none,
                 labelText: "  Description",
-                labelStyle: labelColor),
+                labelStyle: labelColor,
+              ),
+              // textAlign: TextAlign.center, // Align horizontally
+              keyboardType: TextInputType.multiline,
+              minLines: 1, //Normal textInputField will be displayed
+              maxLines: 50,
+            ),
           ),
-        ),
-        loginPageGap2,
-      ]),
-    ));
+          loginPageGap2,
+        ]),
+      ),
+    );
   }
 }
